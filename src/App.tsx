@@ -1,28 +1,33 @@
-import Button from './shared/components/button/Button'
-
+import { BoxButton } from '@/shared/components'
 
 function App() {
 
   return (
-    <div className="flex min-h-screen items-center justify-center gap-4">
 
-      <Button>
+    <div>
+
+      <BoxButton>
         저장
-      </Button>
+      </BoxButton>
 
 
-      <Button variant="danger">
+      <BoxButton variant="danger">
         삭제
-      </Button>
+      </BoxButton>
 
 
-      <Button size="large">
-        큰 버튼
-      </Button>
+      <BoxButton
+        variant="secondary"
+        height="lg"
+      >
+        취소
+      </BoxButton>
+
 
     </div>
-  )
-}
 
+  )
+
+}
 
 export default App
