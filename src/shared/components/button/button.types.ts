@@ -1,25 +1,20 @@
-/*
-    버튼이 어떤 데이터를 받을 수 있는지만 관리
-    타입은 여러곳에서 재사용이될 가능성이 높다
-    
-*/
-
 import type {
-  ButtonHTMLAttributes,
-  ReactNode,
+  ButtonHTMLAttributes
 } from 'react'
 
+
 /**
- * 버튼 종류
+ * 버튼 디자인 종류
  *
- * primary   : 기본
- * secondary : 보조
- * danger    : 삭제
+ * 디자인 시스템에서 허용하는 타입만 사용
  */
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'danger'
+  | 'outline'
+
+
 
 /**
  * 버튼 높이
@@ -29,30 +24,71 @@ export type ButtonHeight =
   | 'md'
   | 'lg'
 
+
+
 /**
  * 버튼 너비
  */
 export type ButtonWidth =
-  | 'sm'
+  | 'auto'
+  | 'full'
   | 'md'
   | 'lg'
+
+
 
 /**
  * BoxButton Props
  *
- * ButtonHTMLAttributes를 상속받기 때문에
+ * HTML button 속성을 기본으로 확장
+ *
+ * 예:
  * onClick
- * disabled
  * type
- * ...
- * 등을 따로 선언하지 않아도 사용할 수 있습니다.
+ * disabled
+ * aria-label
+ *
+ * 모두 사용 가능
  */
 export interface BoxButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode
+
+
+  /**
+   * 버튼 스타일
+   */
   variant?: ButtonVariant
+
+
+
+  /**
+   * 버튼 높이
+   */
   height?: ButtonHeight
+
+
+
+  /**
+   * 버튼 너비
+   */
   width?: ButtonWidth
+
+
+
+  /**
+   * 부모 영역 전체 사용 여부
+   */
   isFull?: boolean
+
+
+
+  /**
+   * API 처리 중 상태
+   *
+   * true:
+   * - Spinner 표시
+   * - 클릭 방지
+   */
   loading?: boolean
+
 }

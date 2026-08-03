@@ -1,65 +1,75 @@
 import { forwardRef } from 'react'
+
+import { Spinner } from '@/shared/components/feedback/spinner'
+
 import { getButtonClass } from './button.utils'
-import type { BoxButtonProps, } from './button.types'
+
+import type { BoxButtonProps } from './button.types'
 
 /**
  * BoxButton
  *
- * 기본 사각형 버튼 컴포넌트
+ * 프로젝트에서 사용하는 기본 버튼 컴포넌트
  *
- * 설계:
- * - 버튼 렌더링 담당
- * - 스타일 조합은 button.utils 담당
- * - 타입은 button.types 담당
- *
- * forwardRef 사용 이유:
- * - 부모 컴포넌트에서 실제 button DOM 접근 가능
- * - focus, scroll, accessibility 처리 가능
+ * 설계 원칙
+ * --------------------------------------------------
+ * 1. UI 렌더링만 담당한다.
+ * 2. 스타일은 button.styles.ts에서 관리한다.
+ * 3. 스타일 조합은 button.utils.ts에서 담당한다.
+ * 4. 로딩 UI는 Spinner 컴포넌트를 재사용한다.
+ * 5. DOM 접근이 가능하도록 forwardRef를 지원한다.
  */
 export const BoxButton = forwardRef<
   HTMLButtonElement,
   BoxButtonProps
 >(
-
-  function BoxButton(
-    
+  (
     {
       children,
       variant = 'primary',
       height = 'md',
-      width = 'md',
-      isFull = false,
+      width = 'auto',
       loading = false,
-      disabled,
+      disabled = false,
       className,
       type = 'button',
       ...props
     },
-    ref
-  ) {
+    ref,
+  ) => {
+    /**
+     * loading 중에는 사용자가 버튼을 다시 클릭하면
+     * 중복 요청이 발생할 수 있다.
+     *
+     * 따라서 loading 상태도 disabled처럼 동작시킨다.
+     */
+    const isDisabled = disabled || loading
     return (
       <button
-        // 부모에서 전달한 ref를 실제 DOM에 연결
         ref={ref}
-        // form 내부 submit 방지
         type={type}
+        disabled={isDisabled}
         className={getButtonClass({
           variant,
           height,
           width,
-          isFull,
+          disabled: isDisabled,
           className,
         })}
-        // loading 중에는 클릭 방지
-        disabled={disabled || loading}
         {...props}
       >
         {
-          loading
-            ? 'Loading...'
-            : children
+          loading && (
+            <Spinner
+              size="sm"
+            />
+          )
         }
+        <span>
+          {children}
+        </span>
       </button>
     )
-  }
+  },
 )
+BoxButton.displayName = 'BoxButton'

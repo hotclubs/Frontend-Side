@@ -1,94 +1,87 @@
-/**
- * Button 스타일를 조합하는 유틸 함수
- *
- * 목적
- * 1. BoxButton는 "동작"만 담당한다.
- * 2. 스타일 조합은 이 파일이 담당한다.
- */
 import { cn } from '@/shared/utils/cn'
-
 import {
   BASE_STYLE,
+  VARIANT_STYLE,
   HEIGHT_STYLE,
   WIDTH_STYLE,
-  VARIANT_STYLE,
+  DISABLED_STYLE,
 } from './button.styles'
-
 import type {
-  ButtonHeight,
   ButtonVariant,
+  ButtonHeight,
   ButtonWidth,
 } from './button.types'
 
-
 /**
- * 버튼 className 생성 함수
+ * Button class 조합 함수
  *
- * Button 컴포넌트에서는
- * Tailwind 조합 로직을 몰라도 됩니다.
+ * 역할:
+ * - Button에 필요한 Tailwind class 생성
  *
- * 필요한 값만 전달하면
- * 최종 className을 만들어 반환합니다.
+ * 컴포넌트와 스타일을 분리하기 위한 계층
+ *
+ * 사용:
+ *
+ * BoxButton
+ *    ↓
+ * getButtonClass()
+ *    ↓
+ * Tailwind class
  */
-interface GetButtonClassOptions {
-
-  // 버튼 색상 타입
+interface GetButtonClassParams {
+  /**
+   * 버튼 디자인 종류
+   */
   variant: ButtonVariant
-
-  // 버튼 높이
+  /**
+   * 버튼 높이
+   */
   height: ButtonHeight
-
-  // 버튼 너비
+  /**
+   * 버튼 너비
+   */
   width: ButtonWidth
-
-  // 부모 영역 전체 사용 여부
-  isFull: boolean
-
-  // 사용자가 추가로 넣는 class
+  /**
+   * disabled 여부
+   */
+  disabled?: boolean
+  /**
+   * 외부 추가 class
+   */
   className?: string
 }
 
-
 export function getButtonClass({
-
   variant,
-
   height,
-
   width,
-
-  isFull,
-
+  disabled,
   className,
-
-}: GetButtonClassOptions) {
-
-
+}: GetButtonClassParams) {
   return cn(
-
-    // 공통 버튼 스타일
+    /**
+     * 공통 버튼 스타일
+     */
     BASE_STYLE,
-
-
-    // variant 스타일
+    /**
+     * variant별 스타일
+     */
     VARIANT_STYLE[variant],
-
-
-    // 높이
+    /**
+     * 높이
+     */
     HEIGHT_STYLE[height],
-
-
-    // 너비
+    /**
+     * 너비
+     */
     WIDTH_STYLE[width],
-
-
-    // 전체 너비
-    isFull && 'w-full',
-
-
-    // 외부 className
-    className
-
+    /**
+     * disabled 스타일
+     */
+    disabled && DISABLED_STYLE,
+    /**
+     * 사용하는 곳에서 추가 스타일 허용
+     */
+    className,
   )
-
 }

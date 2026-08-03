@@ -11,6 +11,8 @@ shared
         ├── button.types.ts   ← 타입 정의
         ├── button.styles.ts  ← tailwind 스타일
         └── button.utils.ts   ← 조합 로직(버튼 스타일을 만들어주는 함수)
+    └── docs          ⭐ 추가
+        └── component-convention.m
 
     ButtonGroup을 만든다고 가정
     그럼면 variant 타입을 또 써야한다.

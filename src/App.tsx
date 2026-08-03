@@ -6,7 +6,7 @@ function App() {
 
     <div>
 
-      <BoxButton>
+      <BoxButton loading>
         저장
       </BoxButton>
 
@@ -22,6 +22,19 @@ function App() {
       >
         취소
       </BoxButton>
+
+      <button>
+
+        <span className="invisible">
+          저장
+        </span>
+
+
+        <span className="absolute">
+          ⟳
+        </span>
+
+      </button>
 
 
     </div>
