@@ -3,39 +3,53 @@ import type {
 } from 'react'
 
 /**
- * BaseInput Props
+ * BaseInput 기본 Props
  *
- * 공통 Input 컴포넌트에서 사용하는 속성 정의
- *
- * HTML input 기본 속성은 그대로 사용하지만,
- * 디자인 시스템에서 관리하는 속성은 별도로 재정의한다.
- *
- * 예:
- * - placeholder
- * - disabled
- * - maxLength
- * - onChange
- *
- * 등은 HTML 기본 속성을 그대로 사용한다.
+ * HTML Input 속성을 그대로 지원한다.
  */
 export interface BaseInputProps
+  extends InputHTMLAttributes<HTMLInputElement> {
+}
+
+/**
+ * 값 변환 Input Props
+ *
+ * Controller와 연결되는 Input 전용 타입
+ *
+ * 일반 Input과 달리
+ * onChange는 Event가 아니라
+ * 변환된 값을 전달한다.
+ */
+export interface ValueInputProps
   extends Omit<
     InputHTMLAttributes<HTMLInputElement>,
-    'size'
+    'value'
+    | 'onChange'
   > {
 
 
   /**
-   * Input 크기 옵션
+   * 실제 Form 저장 값
    *
-   * HTML input의 size(number)와 충돌하기 때문에
-   * 기존 size 속성을 제거(Omit) 후
-   * 디자인 시스템용 크기로 재정의한다.
-   *
-   * sm : 작은 입력창
-   * md : 기본 입력창
-   * lg : 큰 입력창
+   * 예:
+   * "50000000"
    */
-  size?: 'sm' | 'md' | 'lg'
+  value?: string
+
+
+
+  /**
+   * 변환된 값 전달
+   *
+   * 예:
+   * "50,000,000"
+   *
+   * ↓
+   *
+   * "50000000"
+   */
+  onChange?: (
+    value: string
+  ) => void
 
 }
